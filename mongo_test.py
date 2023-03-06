@@ -1,11 +1,33 @@
 from pymongo import MongoClient
-import psycopg2
 
-client = MongoClient()
-print(client) #mongoclient
-print(client.sp_db.products.find())
+CLIENT = MongoClient()
 
-producten = [product for product in client.sp_db.products.find()]
-print(f'er zijn in toaal {len(producten)} producten')
+# List comprehension
+producten = [product for product in CLIENT.sp_db.products.find()]
 
-print(f'het eerste product is {(client.sp_db.products.find_one())}')
+# Eerste product & prijs
+
+query_eerstep = ({'name':'Korg RP-G1 Rimpitch tuner voor klankgat gitaar'})
+eerste_product = CLIENT.sp_db.products.find_one(query_eerstep)
+eerste_prijs = eerste_product['price']
+
+print('het eerste product naam uit de database is;', eerste_product['name'])
+print('Het prijs van dit product is $', eerste_prijs['selling_price'])
+print('=='*65)
+
+# Eerste product met letter R in de naam
+query_r = ({"name": {"$regex":"^R"}})
+product = CLIENT.sp_db.products.find_one(query_r)
+print('Eerste product met letter R in het begin van de naam;', product['name'])
+print('=='* 65)
+
+# Gemiddelde prijs van alle producten
+totale = []
+for prijs in producten:
+    totale.append(prijs['price']['selling_price'])
+
+
+print("De gemiddelde prijs van onze producten zijn:",sum(totale)/len(totale))
+print("=="*65)
+
+
