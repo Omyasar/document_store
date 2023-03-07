@@ -8,7 +8,7 @@ producten = [product for product in CLIENT.sp_db.products.find()]
 # Eerste product & prijs
 
 query_eerstep = ({'name':'Korg RP-G1 Rimpitch tuner voor klankgat gitaar'})
-eerste_product = CLIENT.sp_db.products.find_one(query_eerstep)
+eerste_product = CLIENT.sp_db.products.find_one()
 eerste_prijs = eerste_product['price']
 
 print('het eerste product naam uit de database is;', eerste_product['name'])
@@ -29,5 +29,21 @@ for prijs in producten:
 
 print("De gemiddelde prijs van onze producten zijn:",sum(totale)/len(totale))
 print("=="*65)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
