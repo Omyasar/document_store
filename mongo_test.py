@@ -26,7 +26,6 @@ totale = []
 for prijs in producten:
     totale.append(prijs['price']['selling_price'])
 
-
 print("De gemiddelde prijs van onze producten zijn:",sum(totale)/len(totale))
 print("=="*65)
 
