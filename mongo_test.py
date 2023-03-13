@@ -1,6 +1,27 @@
+import pymongo
 from pymongo import MongoClient
+import psycopg2
 
 CLIENT = MongoClient()
+mongo_db = CLIENT["sp_db"]
+product_collection = mongo_db["products"]
+
+psql_conn = psycopg2.connect(
+    host="localhost",
+    database="document_store",
+    user="postgres",
+    password="farmainterim",
+    port = 5433 )
+
+psql_cursor = psql_conn.cursor()
+
+for doc in product_collection.find():
+    product_name = doc['category']['category_1']
+    product_price = doc['price']['selling_price']
+    psql_cursor.execute(
+        "INSERT INTO products VALUES (%s, %s)", (product_name, product_price)
+    )
+    psql_conn.commit()
 
 # List comprehension
 producten = [product for product in CLIENT.sp_db.products.find()]
