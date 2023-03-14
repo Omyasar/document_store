@@ -64,7 +64,7 @@ producten = [product for product in CLIENT.huwebshop.products.find()]
 
 # Eerste product & prijs
 query_eerstep = ({'name': 'Korg RP-G1 Rimpitch tuner voor klankgat gitaar'})
-eerste_product = CLIENT.sp_db.products.find_one()
+eerste_product = CLIENT.huwebshop.products.find_one()
 eerste_prijs = eerste_product['price']
 
 print('het eerste product naam uit de database is;', eerste_product['name'])
@@ -73,7 +73,7 @@ print('==' * 65)
 
 # Eerste product met letter R in de naam
 query_r = ({"name": {"$regex": "^R"}})
-product = CLIENT.sp_db.products.find_one(query_r)
+product = CLIENT.huwebshop.products.find_one(query_r)
 print('Eerste product met letter R in het begin van de naam;', product['name'])
 print('==' * 65)
 
