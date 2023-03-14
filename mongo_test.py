@@ -23,6 +23,14 @@ for doc in product_collection.find():
     )
     psql_conn.commit()
 
+
+
+
+
+
+
+
+
 # List comprehension
 producten = [product for product in CLIENT.sp_db.products.find()]
 
