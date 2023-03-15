@@ -48,7 +48,6 @@ def category_pakker():
 
 
 category_pakker()
-print(category_products)
 # Call de functie
 all_product_info()
 print('==' * 65)
@@ -78,7 +77,7 @@ print('==' * 65)
 
 
 def category_lst(category):
-    random_category = random.choice(category)
+    random_category = random.choice(category_products)
     for doc in product_collection.find():
         try:
             product_price = doc['price']['selling_price']
@@ -86,9 +85,7 @@ def category_lst(category):
         except KeyError:
             continue
         category_products.append({'selling_price': product_price, 'category': product_category})
-
-
-print(category_products)
+        return  random_category
 
 
 # Gemiddelde prijs van alle producten
