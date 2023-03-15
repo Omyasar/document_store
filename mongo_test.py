@@ -55,8 +55,8 @@ def fetched_products(products):
 
 
 selected_product, max_diff_product = fetched_products(test_products)
-print("Geselecteerd product:", selected_product)
-print("Product met grootste afwijking:", max_diff_product)
+print("Geselecteerd product:", selected_product['name'])
+print("Product met grootste afwijking:", max_diff_product['name'])
 
 print('==' * 65)
 # List comprehension
