@@ -37,6 +37,7 @@ def all_product_info():
     print('Database succesvol gevuld. :)')
 
 
+
 # Call de functie
 all_product_info()
 print('==' * 65)
