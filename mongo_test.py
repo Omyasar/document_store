@@ -3,10 +3,12 @@ from pymongo import MongoClient
 import psycopg2
 import random
 
+# Globale variabele voor mongodb
 CLIENT = MongoClient()
 mongo_db = CLIENT["huwebshop"]
 product_collection = mongo_db["products"]
 
+# Postgres connectie maken
 psql_conn = psycopg2.connect(
     host="localhost",
     database="document_store",
@@ -18,6 +20,7 @@ psql_cursor = psql_conn.cursor()
 test_products = []
 
 
+# Postgres database vullen met de naam van het product en prijs van het product.
 def all_product_info():
     for doc in product_collection.find():
         try:
@@ -33,6 +36,7 @@ def all_product_info():
     print('Database succesvol gevuld. :)')
 
 
+# Call de functie
 all_product_info()
 print('==' * 65)
 
@@ -57,8 +61,8 @@ def fetched_products(products):
 selected_product, max_diff_product = fetched_products(test_products)
 print("Geselecteerd product:", selected_product['name'])
 print("Product met grootste afwijking:", max_diff_product['name'])
-
 print('==' * 65)
+
 # List comprehension
 producten = [product for product in CLIENT.huwebshop.products.find()]
 
