@@ -26,11 +26,12 @@ def all_product_info():
         try:
             product_name = doc['name']
             product_price = doc['price']['selling_price']
+            product_category = doc['category']
         except KeyError:
             continue
-        test_products.append({'name': product_name, 'selling_price': product_price})
+        test_products.append({'name': product_name, 'selling_price': product_price, 'category': product_category})
         psql_cursor.execute(
-            "INSERT INTO products VALUES (%s, %s)", (product_name, product_price)
+            "INSERT INTO products VALUES (%s, %s, %s)", (product_name, product_price, product_category)
         )
         psql_conn.commit()
     print('Database succesvol gevuld. :)')
@@ -86,6 +87,7 @@ print('==' * 65)
 def average_price(products):
     totale = []
     for prijs in products:
+        # if 'selling_price' in prijs.keys()
         try:
             totale.append(prijs['selling_price'])
         except KeyError:
