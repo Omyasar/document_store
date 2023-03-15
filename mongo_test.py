@@ -104,10 +104,6 @@ def average_price(products):
 print("De gemiddelde prijs van onze producten zijn:", average_price(products=test_products))
 print("==" * 65)
 
-selected_product, max_diff_product = fetched_products(test_products)
-print("Geselecteerd product:", selected_product['name'])
-print("Product met grootste afwijking:", max_diff_product['name'])
-print('==' * 65)
 
 # List comprehension
 producten = [product for product in CLIENT.huwebshop.products.find()]
