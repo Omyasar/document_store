@@ -42,9 +42,14 @@ def category_pakker():
     for doc in product_collection.find():
         try:
             product_category = doc['category']
-            category_products.append({'category': product_category})
+            category_products.append(product_category)
         except KeyError:
             continue
+
+
+def price_category():
+    psql_cursor.execute("SELECT product_price FROM products WHERE product_category = %s", (()))
+    psql_conn.commit()
 
 
 category_pakker()
@@ -75,17 +80,10 @@ print("Geselecteerd product:", selected_product['name'])
 print("Product met grootste afwijking:", max_diff_product['name'])
 print('==' * 65)
 
-
-def category_lst(category):
-    random_category = random.choice(category_products)
-    for doc in product_collection.find():
-        try:
-            product_price = doc['price']['selling_price']
-            product_category = doc['category']
-        except KeyError:
-            continue
-        category_products.append({'selling_price': product_price, 'category': product_category})
-        return  random_category
+categories = [c for c in category_products if c is not None]
+print(categories)
+random_category = random.choice(category_products)
+print(random_category)
 
 
 # Gemiddelde prijs van alle producten
@@ -103,7 +101,6 @@ def average_price(products):
 
 print("De gemiddelde prijs van onze producten zijn:", average_price(products=test_products))
 print("==" * 65)
-
 
 # List comprehension
 producten = [product for product in CLIENT.huwebshop.products.find()]
