@@ -37,7 +37,6 @@ def all_product_info():
     print('Database succesvol gevuld. :)')
 
 
-
 # Call de functie
 all_product_info()
 print('==' * 65)
@@ -65,23 +64,9 @@ print("Geselecteerd product:", selected_product['name'])
 print("Product met grootste afwijking:", max_diff_product['name'])
 print('==' * 65)
 
-# List comprehension
-producten = [product for product in CLIENT.huwebshop.products.find()]
 
-# Eerste product & prijs
-query_eerstep = ({'name': 'Korg RP-G1 Rimpitch tuner voor klankgat gitaar'})
-eerste_product = CLIENT.huwebshop.products.find_one()
-eerste_prijs = eerste_product['price']
-
-print('het eerste product naam uit de database is;', eerste_product['name'])
-print('Het prijs van dit product is $', eerste_prijs['selling_price'])
-print('==' * 65)
-
-# Eerste product met letter R in de naam
-query_r = ({"name": {"$regex": "^R"}})
-product = CLIENT.huwebshop.products.find_one(query_r)
-print('Eerste product met letter R in het begin van de naam;', product['name'])
-print('==' * 65)
+def category_lst():
+    return
 
 
 # Gemiddelde prijs van alle producten
@@ -99,3 +84,26 @@ def average_price(products):
 
 print("De gemiddelde prijs van onze producten zijn:", average_price(products=test_products))
 print("==" * 65)
+
+selected_product, max_diff_product = fetched_products(test_products)
+print("Geselecteerd product:", selected_product['name'])
+print("Product met grootste afwijking:", max_diff_product['name'])
+print('==' * 65)
+
+# List comprehension
+producten = [product for product in CLIENT.huwebshop.products.find()]
+
+# Eerste product & prijs
+query_eerstep = ({'name': 'Korg RP-G1 Rimpitch tuner voor klankgat gitaar'})
+eerste_product = CLIENT.huwebshop.products.find_one()
+eerste_prijs = eerste_product['price']
+
+print('het eerste product naam uit de database is;', eerste_product['name'])
+print('Het prijs van dit product is $', eerste_prijs['selling_price'])
+print('==' * 65)
+
+# Eerste product met letter R in de naam
+query_r = ({"name": {"$regex": "^R"}})
+product = CLIENT.huwebshop.products.find_one(query_r)
+print('Eerste product met letter R in het begin van de naam;', product['name'])
+print('==' * 65)
