@@ -38,6 +38,17 @@ def all_product_info():
     print('Database succesvol gevuld. :)')
 
 
+def category_pakker():
+    for doc in product_collection.find():
+        try:
+            product_category = doc['category']
+            category_products.append({'category': product_category})
+        except KeyError:
+            continue
+
+
+category_pakker()
+print(category_products)
 # Call de functie
 all_product_info()
 print('==' * 65)
@@ -75,7 +86,9 @@ def category_lst(category):
         except KeyError:
             continue
         category_products.append({'selling_price': product_price, 'category': product_category})
-    return
+
+
+print(category_products)
 
 
 # Gemiddelde prijs van alle producten
