@@ -18,6 +18,7 @@ psql_conn = psycopg2.connect(
 
 psql_cursor = psql_conn.cursor()
 test_products = []
+category_products = []
 
 
 # Postgres database vullen met de naam van het product en prijs van het product.
@@ -65,7 +66,15 @@ print("Product met grootste afwijking:", max_diff_product['name'])
 print('==' * 65)
 
 
-def category_lst():
+def category_lst(category):
+    random_category = random.choice(category)
+    for doc in product_collection.find():
+        try:
+            product_price = doc['price']['selling_price']
+            product_category = doc['category']
+        except KeyError:
+            continue
+        category_products.append({'selling_price': product_price, 'category': product_category})
     return
 
 
