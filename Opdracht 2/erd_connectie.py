@@ -46,11 +46,6 @@ def all_product_info():
 
 all_product_info()
 
-categories = [c for c in category_products if c is not None]
-
-#random_category = random.choice(categories)
-print(categories)
-
 
 def category_pakker():
     for doc in product_collection.find():
@@ -59,25 +54,28 @@ def category_pakker():
             category_products.append(product_category)
         except KeyError:
             continue
-    print(category_products)
 
 
 category_pakker()
 
+categories = [c for c in category_products if c is not None]
+
+random_category = random.choice(categories)
+
 
 def price_category():
-    # psql_cursor.execute("SELECT product_price FROM products WHERE product_category = %s", random_category)
+    psql_cursor.execute("SELECT product_price FROM products WHERE product_category = %s", (random_category,))
+    result = psql_cursor.fetchall()
     psql_conn.commit()
+    return result
 
-
-# price_category()
+print(price_category())
 # Call de functie
 print('==' * 65)
 
 
 def fetched_products(products):
     random_product = random.choice(products)
-
     # Zoek het product met de grootste absolute afwijking in prijs ten opzichte van het geselecteerde product
     max_diff = 0
     max_diff_product = None
@@ -87,7 +85,6 @@ def fetched_products(products):
             if diff > max_diff:
                 max_diff = diff
                 max_diff_product = product
-
     # Geef het geselecteerde product en het product met de grootste absolute afwijking terug
     return random_product, max_diff_product
 
