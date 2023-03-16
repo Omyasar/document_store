@@ -48,8 +48,9 @@ all_product_info()
 
 categories = [c for c in category_products if c is not None]
 
-random_category = random.choice(categories)
-print(random_category)
+#random_category = random.choice(categories)
+print(categories)
+
 
 def category_pakker():
     for doc in product_collection.find():
@@ -58,17 +59,18 @@ def category_pakker():
             category_products.append(product_category)
         except KeyError:
             continue
+    print(category_products)
 
 
 category_pakker()
 
 
 def price_category():
-    psql_cursor.execute("SELECT product_price FROM products WHERE product_category = %s", random_category)
+    # psql_cursor.execute("SELECT product_price FROM products WHERE product_category = %s", random_category)
     psql_conn.commit()
 
 
-price_category()
+# price_category()
 # Call de functie
 print('==' * 65)
 
