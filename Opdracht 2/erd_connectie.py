@@ -21,6 +21,9 @@ test_products = []
 category_products = []
 
 
+# test = [{'selling_price': 1},{'selling_price': 2},{'selling_price': 3}]
+
+
 # Postgres database vullen met de naam van het product en prijs van het product.
 def all_product_info():
     for doc in product_collection.find():
@@ -28,15 +31,25 @@ def all_product_info():
             product_name = doc['name']
             product_price = doc['price']['selling_price']
             product_category = doc['category']
+            product_gender = doc['gender']
         except KeyError:
             continue
-        test_products.append({'name': product_name, 'selling_price': product_price, 'category': product_category})
+        test_products.append({'name': product_name, 'selling_price': product_price, 'category': product_category,
+                              'gender': product_gender})
         psql_cursor.execute(
-            "INSERT INTO products VALUES (%s, %s, %s)", (product_name, product_price, product_category)
+            "INSERT INTO products VALUES (%s, %s, %s, %s)",
+            (product_name, product_price, product_category, product_gender)
         )
         psql_conn.commit()
     print('Database succesvol gevuld. :)')
 
+
+all_product_info()
+
+categories = [c for c in category_products if c is not None]
+
+random_category = random.choice(categories)
+print(random_category)
 
 def category_pakker():
     for doc in product_collection.find():
@@ -47,14 +60,16 @@ def category_pakker():
             continue
 
 
+category_pakker()
+
+
 def price_category():
-    psql_cursor.execute("SELECT product_price FROM products WHERE product_category = %s", (()))
+    psql_cursor.execute("SELECT product_price FROM products WHERE product_category = %s", random_category)
     psql_conn.commit()
 
 
-category_pakker()
+price_category()
 # Call de functie
-all_product_info()
 print('==' * 65)
 
 
@@ -80,23 +95,11 @@ print("Geselecteerd product:", selected_product['name'])
 print("Product met grootste afwijking:", max_diff_product['name'])
 print('==' * 65)
 
-categories = [c for c in category_products if c is not None]
-print(categories)
-random_category = random.choice(category_products)
-print(random_category)
-
 
 # Gemiddelde prijs van alle producten
 def average_price(products):
-    totale = []
-    for prijs in products:
-        # if 'selling_price' in prijs.keys()
-        try:
-            totale.append(prijs['selling_price'])
-        except KeyError:
-            continue
-    totale = sum(totale) / len(totale)
-    return totale
+    prijzen = [p['selling_price'] for p in products if 'selling_price' in p.keys()]
+    return sum(prijzen) / len(products)
 
 
 print("De gemiddelde prijs van onze producten zijn:", average_price(products=test_products))
