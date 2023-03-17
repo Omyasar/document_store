@@ -64,10 +64,22 @@ random_category = random.choice(categories)
 
 
 def price_category():
+    prices = []
     psql_cursor.execute("SELECT product_price FROM products WHERE product_category = %s", (random_category,))
     result = psql_cursor.fetchall()
-    psql_conn.commit()
-    return result
+    for row in result:
+        prices.append(row[0])
+
+    if len(prices) > 0:
+        average = sum(prices) / len(prices)
+    else:
+        average = None
+
+    return average
+
+
+
+
 
 print(price_category())
 # Call de functie
