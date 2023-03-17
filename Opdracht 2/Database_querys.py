@@ -19,11 +19,37 @@ psql_conn = psycopg2.connect(
 psql_cursor = psql_conn.cursor()
 
 psql_cursor.execute("""
-    CREATE TABLE product_test(
+    CREATE TABLE products(
         _id serial PRIMARY KEY,
+        name varchar not null unique,
         brand VARCHAR,
-        colour VARCHAR,
-        fast_mover bool
+        gender VARCHAR,
+        category  VARCHAR,
+        sub_category VARCHAR,
+        sub_sub_category VARCHAR,
+        price int not null,
+        target_group VARCHAR,
+        doelgroep bool,
+        stock INTEGER,
+        herhaalaankopen bool,
+        series VARCHAR,
+        predict_out_of_stock_date date
+
+    )
+""")
+
+psql_cursor.execute("""
+    CREATE TABLE profiles(
+    _id serial PRIMARY KEY,
+    
+    )
+""")
+
+psql_cursor.execute("""
+    CREATE TABLE sessions(
+    _id serial PRIMARY KEY char(50),
+    
+    
     )
 """)
 
