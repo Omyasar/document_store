@@ -7,7 +7,6 @@ mongo_db = CLIENT["huwebshop"]
 profile_collection = mongo_db['profiles']
 session_collection = mongo_db['sessions']
 
-
 # Postgres connectie maken
 psql_conn = psycopg2.connect(
     host="localhost",
@@ -20,20 +19,21 @@ test_profiles = []
 psql_cursor = psql_conn.cursor()
 
 
-def all_profiles_info():
-    for doc in profile_collection.find():
+def all_sessions_info():
+    for i,doc in enumerate(session_collection.find()):
+        if i >= 1000:
+            break
         try:
-            profile_uniques = doc['unique_hash']
+            session_sale = doc['has_sale']
         except KeyError:
             continue
-        test_profiles.append({'unique_hash': profile_uniques, })
+        test_profiles.append({'has_sale': session_sale, })
         psql_cursor.execute(
             "INSERT INTO profiles VALUES (%s)",
-            (profile_uniques,)
+            (session_sale,)
         )
         psql_conn.commit()
     print('Database succesvol gevuld. :)')
 
 
-all_profiles_info()
-
+all_sessions_info()
