@@ -69,10 +69,10 @@ def price_category():
     result = psql_cursor.fetchall()
     for row in result:
         prices_for_category.append(row[0])
-    return
+    return prices_for_category
 
 price_category()
-
+print(prices_for_category)
 
 # Call de functie
 print('==' * 65)
