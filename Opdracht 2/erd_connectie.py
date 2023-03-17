@@ -19,6 +19,7 @@ psql_conn = psycopg2.connect(
 psql_cursor = psql_conn.cursor()
 test_products = []
 category_products = []
+prices_for_category = []
 
 
 # test = [{'selling_price': 1},{'selling_price': 2},{'selling_price': 3}]
@@ -64,24 +65,15 @@ random_category = random.choice(categories)
 
 
 def price_category():
-    prices = []
     psql_cursor.execute("SELECT product_price FROM products WHERE product_category = %s", (random_category,))
     result = psql_cursor.fetchall()
     for row in result:
-        prices.append(row[0])
+        prices_for_category.append(row[0])
+    return
 
-    if len(prices) > 0:
-        average = sum(prices) / len(prices)
-    else:
-        average = None
-
-    return average
+price_category()
 
 
-
-
-
-print(price_category())
 # Call de functie
 print('==' * 65)
 
