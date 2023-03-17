@@ -72,7 +72,6 @@ def price_category():
     return prices_for_category
 
 price_category()
-print(prices_for_category)
 
 # Call de functie
 print('==' * 65)
