@@ -1,4 +1,3 @@
-import pymongo
 from pymongo import MongoClient
 import psycopg2
 import random
@@ -13,8 +12,8 @@ psql_conn = psycopg2.connect(
     host="localhost",
     database="document_store",
     user="postgres",
-    password="farmainterim",
-    port=5433)
+    password="1234",
+    port=5432)
 
 psql_cursor = psql_conn.cursor()
 test_products = []
@@ -33,17 +32,11 @@ def all_product_info():
             product_price = doc['price']['selling_price']
             product_category = doc['category']
             product_gender = doc['gender']
+            product_id = doc['_id']
         except KeyError:
             continue
         test_products.append({'name': product_name, 'selling_price': product_price, 'category': product_category,
-                              'gender': product_gender})
-        psql_cursor.execute(
-            "INSERT INTO products VALUES (%s, %s, %s, %s)",
-            (product_name, product_price, product_category, product_gender)
-        )
-        psql_conn.commit()
-    print('Database succesvol gevuld. :)')
-
+                              'gender': product_gender, 'id': product_id})
 
 all_product_info()
 
@@ -71,6 +64,7 @@ def price_category():
         prices_for_category.append(row[0])
     return prices_for_category
 
+
 price_category()
 
 # Call de functie
@@ -94,17 +88,23 @@ def fetched_products(products):
 
 selected_product, max_diff_product = fetched_products(test_products)
 print("Geselecteerd product:", selected_product['name'])
-print("Product met grootste afwijking:", max_diff_product['name'])
+print("Product met grootste afwijking:", max_diff_product['name'], " en de prijs is", max_diff_product['selling_price'])
 print('==' * 65)
 
 
 # Gemiddelde prijs van alle producten
+def average_price_lijst(products):
+    prijzen = sum(products)
+    return prijzen / len(products)
+
+
 def average_price(products):
     prijzen = [p['selling_price'] for p in products if 'selling_price' in p.keys()]
     return sum(prijzen) / len(products)
 
 
-print("De gemiddelde prijs van onze producten zijn:", average_price(products=test_products))
+print("De gemiddelde prijs van de categorie:", random_category, "is:", average_price_lijst(products=prices_for_category))
+print("De gemiddelde prijs van alle producten zijn:", average_price(products=test_products))
 print("==" * 65)
 
 # List comprehension
