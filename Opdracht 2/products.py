@@ -72,8 +72,8 @@ def insert_data(products):
              product['doelgroep'], product['soort'], product['stock'])
         )
     psql_conn.commit()
-
     print("inserted!!")
 
 
 insert_data(test_products)
+
